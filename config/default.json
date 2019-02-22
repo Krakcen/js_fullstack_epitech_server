@@ -5,5 +5,30 @@
   "paginate": {
     "default": 10,
     "max": 50
-  }
+  },
+  "authentication": {
+    "secret": "128eea84f3ebd6671cf0dd2f26e7dfc377874f664a343c45f193d8ef12598b5fc2a5b4baacddbaeed1455cfd241427b539f82f7f9656a5f909db8ec7837a699044f0f2a06847ba04b9a842cd91820f09cc12cde7408d2577805f62eeb23bdaeacf0796cc4d0d185a457438ff8d4adc2eef9d9369f00f00e52643ea9c20170ce4227ace1f94e559cac8ffee517ac501fafa2ea8dd6b3255a729b0a78bdaa3a127393e9c701144b3901551fdef0ee660f75877dd2c76e05899ddc0baa082d1395401367fd09642fd0eb2f698d180d43fbc50356c11c0a82b50d9b58b1ebbba2094be1c9c17b0088722179ad45367e479cb5cd61ffd6c308bb870ca616fccb9b3b5",
+    "strategies": [
+      "jwt",
+      "local"
+    ],
+    "path": "/authentication",
+    "service": "users",
+    "jwt": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "subject": "anonymous",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "entity": "user",
+      "usernameField": "email",
+      "passwordField": "password"
+    }
+  },
+  "mongodb": "mongodb://localhost:27017/js_fullstack_epitech_server"
 }
