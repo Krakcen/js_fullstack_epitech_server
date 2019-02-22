@@ -1,0 +1,8 @@
+{
+  "basepath": "migrations",
+  "connection": "mongodb://localhost:27017/js_fullstack_epitech_server",
+  "current_timestamp": 0,
+  "models": {
+    "Users": "src/models/users.model.js"
+  }
+}
