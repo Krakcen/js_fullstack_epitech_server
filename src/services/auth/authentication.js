@@ -6,22 +6,24 @@ const local = require('@feathersjs/authentication-local');
 module.exports = function (app) {
   const config = app.get('authentication');
 
-  // Set up authentication with the secret
+  // Configurer l'authentification avec le secret
   app.configure(authentication(config));
   app.configure(jwt());
   app.configure(local());
 
-  // The `authentication` service is used to create a JWT.
-  // The before `create` hook registers strategies that can be used
-  // to create a new valid JWT (e.g. local or oauth2)
+  // Le service `authentication' est utilisé pour créer un JWT.
+  // Le hook avant `créer' enregistre les stratégies qui peuvent être utilisées
+  // pour créer un nouveau JWT valide (par exemple local ou oauth2)
   app.service('authentication').hooks({
     before: {
       create: [
         authentication.hooks.authenticate(config.strategies)
       ],
-      remove: [
+      remove: [ /* Logout */
         authentication.hooks.authenticate('jwt')
       ]
     }
   });
+
+  const service = app.service('authentication');
 };

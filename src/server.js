@@ -13,11 +13,10 @@ const socketio = require('@feathersjs/socketio');
 
 const middleware = require('./middleware');
 const services = require('./services');
-const appHooks = require('./app.hooks');
+const appHooks = require('./hooks/app.hooks');
 const channels = require('./channels');
-
-const authentication = require('./authentication');
-
+const swagger = require('./swagger');
+const authentication = require('./services/auth/authentication');
 const mongoose = require('./mongoose');
 
 const app = express(feathers());
@@ -47,6 +46,8 @@ app.configure(authentication);
 app.configure(services);
 // Set up event channels (see channels.js)
 app.configure(channels);
+// Set up docs. 
+app.configure(swagger);
 
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound());

@@ -1,16 +1,12 @@
-/* eslint-disable no-console */
 const logger = require('./logger');
-const app = require('./app');
+const app = require('./server');
 const port = app.get('port');
 const server = app.listen(port);
 
-process.on('unhandledRejection', (reason, p) =>
-  logger.error('Unhandled Rejection at: Promise ', p, reason)
-);
+process.on('unhandledRejection', (reason, p) => {
+  logger.error(`Unhandled Rejection at: Promise ${p} ${reason}`/*, p, reason*/);
+});
 
 server.on('listening', () =>
-  logger.info(`Feathers application started on http://${app.get('host')}:${port}`)
+  logger.info('started on ' + 'http'.yellow + ':'.red + `//${app.get('host')}`.yellow + ':'.red + `${port}`.blue)
 );
-
-
-// RateLimit, il8n. 
