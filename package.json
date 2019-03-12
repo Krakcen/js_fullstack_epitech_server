@@ -34,9 +34,7 @@
     "url": "https://github.com/Krakcen/js_fullstack_epitech_server.git"
   },
   "scripts": {
-    "prestart": "start mongod",
     "start": "node src/",
-    "poststart": "start mongo admin --eval \"db.getSilingDB('admin').shutdownServer()\"",
     "dev": "nodemon src/",
     "test": "npm run eslint && NODE_ENV= npm run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",

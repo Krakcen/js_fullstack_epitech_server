@@ -6,7 +6,7 @@ const { timestamp, printf, label, colorize, json, prettyPrint } = format;
 
 
 const formatConsole = printf(({ level, message, label }) => {
-  return `[${label}] `.blue + `${level}`.underline + ` : ${message}`;
+  return `[📚 : ${label}] `.blue + `${level}`.underline + ` : ${message}`;
 });
 
 const formatFichier = printf(({ level, message, timestamp }) => {
