@@ -2,12 +2,6 @@
   "host": "localhost",
   "port": 3030,
   "public": "../public/",
-<<<<<<< HEAD
-  "paginate": {
-    "default": 10,
-    "max": 50
-  }
-=======
   "title": "API Story Factory",
   "paginate": {
     "default": 10,
@@ -45,5 +39,4 @@
     "name": "js_fullstack_epitech_server"
   },
   "mongodb": "mongodb://localhost:27017/js_fullstack_epitech_server"
->>>>>>> ccc4efa52f00cf1eda6a05bae6f70cac3a98bd4a
 }

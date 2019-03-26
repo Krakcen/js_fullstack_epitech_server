@@ -1,23 +1,9 @@
-<<<<<<< HEAD
-# js-fullstack-epitech-server
-=======
 # API STORY FACTORY : 📚
->>>>>>> ccc4efa52f00cf1eda6a05bae6f70cac3a98bd4a
 
 > Projet for Courses JavaScript FullStack
 
 ## About
 
-<<<<<<< HEAD
-This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications.
-
-## Getting Started
-
-Getting up and running is as easy as 1, 2, 3.
-
-1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
-2. Install your dependencies
-=======
     Story Factory permet de créer une histoire en colaboration avec plus utilisateur. 
     Vous choisiez votre titre. Vous ajoutez votre synopsis. Vous choisiez le nombre de blocks que peut écrire un utilisateur. 
 
@@ -27,51 +13,11 @@ La mise en service est aussi simple que 1, 2, 3.
 
 1. Assurez-vous d'avoir installer [NodeJS](https://nodejs.org/) et [npm](https://www.npmjs.com/).
 2. Installez vos dépendances
->>>>>>> ccc4efa52f00cf1eda6a05bae6f70cac3a98bd4a
 
     ```
     cd path/to/js-fullstack-epitech-server; npm install
     ```
 
-<<<<<<< HEAD
-3. Start your app
-
-    ```
-    npm start
-    ```
-
-## Testing
-
-Simply run `npm test` and all your tests in the `test/` directory will be run.
-
-## Scaffolding
-
-Feathers has a powerful command line interface. Here are a few things it can do:
-
-```
-$ npm install -g @feathersjs/cli          # Install Feathers CLI
-
-$ feathers generate service               # Generate a new Service
-$ feathers generate hook                  # Generate a new Hook
-$ feathers help                           # Show all commands
-```
-
-## Help
-
-For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
-
-## Changelog
-
-__0.1.0__
-
-- Initial release
-
-## License
-
-Copyright (c) 2018
-
-Licensed under the [MIT license](LICENSE).
-=======
 3. Démarrer l'api.
 
     ```
@@ -176,4 +122,3 @@ Veuliez suivre les instructions pour la mise en place sur le serveur.
 ## License
  ©️ Factory Story - 28 juin 2018 </br>
  Licensed under the [MIT license](LICENSE).
->>>>>>> ccc4efa52f00cf1eda6a05bae6f70cac3a98bd4a

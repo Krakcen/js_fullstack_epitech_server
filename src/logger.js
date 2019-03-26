@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-const { createLogger, format, transports } = require('winston');
-
-// Configure the Winston logger. For the complete documentation see https://github.com/winstonjs/winston
-const logger = createLogger({
-  // To see more detailed errors, change this to 'debug'
-  level: 'info',
-  format: format.combine(
-    format.splat(),
-    format.simple()
-  ),
-  transports: [
-    new transports.Console()
-  ],
-});
-
-=======
 const config = require('config');
 const colorsConsole = require('colors');
 const { createLogger, format, transports } = require('winston');
@@ -60,5 +43,4 @@ if (process.env.NODE_ENV !== 'production') {
   logger.add(fichier);
 }
 
->>>>>>> ccc4efa52f00cf1eda6a05bae6f70cac3a98bd4a
 module.exports = logger;
