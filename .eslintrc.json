@@ -9,6 +9,10 @@
   },
   "extends": "eslint:recommended",
   "rules": {
+<<<<<<< HEAD
+=======
+    "no-console": "off",
+>>>>>>> ccc4efa52f00cf1eda6a05bae6f70cac3a98bd4a
     "indent": [
       "error",
       2
@@ -26,4 +30,8 @@
       "always"
     ]
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ccc4efa52f00cf1eda6a05bae6f70cac3a98bd4a
