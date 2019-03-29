@@ -5,35 +5,153 @@ const {
 } = require('@feathersjs/authentication-local').hooks;
 const validate = require('feathers-hooks-validate-joi');
 
-const createSchemaRequest = require('../../schemas/requests/users/create');
 
+const logger = require('../../logger');
+const log = require('../../hooks/log');
+
+const joiCreateRequest = require('../../schemas/requests/users/create');
+const joiPatchRequest = require('../../schemas/requests/users/patch');
+const joiUpdateRequest = require('../../schemas/requests/users/update');
 const joiOptions = { convert: true, abortEarly: false };
+
+// Before -
+// ------------------------------------------------------
+const beforeUsers = async context => {
+
+  return context;
+}
+
+const beforeFindUsers = async context => {
+  const {
+    params,
+    id
+  } = context;
+
+  return context;
+}
+
+const beforeGetUsers = async context => {
+  const {
+    params,
+    id
+  } = context;
+
+  return context;
+}
+
+const beforeCreateUsers = async context => {
+
+  return context;
+};
+
+const beforeUpdateUsers = async context => {
+  const {
+    params,
+    id
+  } = context;
+
+  return context;
+}
+
+const beforePatchUsers = async context => {
+  const {
+    params,
+    id
+  } = context;
+
+  return context;
+}
+
+const beforeRemoveUsers = async context => {
+  const {
+    params,
+    id
+  } = context;
+
+  return context;
+}
+
+// After -
+// ------------------------------------------------------
+
+const afterUsers = async context => {
+
+  return context;
+}
+
+const afterFindUsers = async context => {
+
+  return context;
+}
+
+const afterGetUsers = async context => {
+
+  return context;
+}
+
+const afterCreateUsers = async context => {
+
+  return context;
+};
+
+const afterUpdateUsers = async context => {
+
+  return context;
+}
+
+const afterPatchUsers = async context => {
+
+  return context;
+}
+
+const afterRemoveUsers = async context => {
+
+  return context;
+}
+
+// Hooks -
+// ------------------------------------------------------
 
 module.exports = {
   before: {
-    all: [],
-    find: [authenticate('jwt')],
-    get: [authenticate('jwt')],
+    all: [beforeUsers],
+    find: [
+      authenticate('jwt'),
+      beforeFindUsers],
+    get: [
+      authenticate('jwt'),
+      beforeGetUsers],
     create: [
-      validate.form(createSchemaRequest, joiOptions),
-      hashPassword()
+      validate.form(joiCreateRequest, joiOptions),
+      hashPassword(),
+      beforeCreateUsers
     ],
-    update: [hashPassword(), authenticate('jwt')],
-    patch: [hashPassword(), authenticate('jwt')],
-    remove: [authenticate('jwt')]
+    update: [
+      /* validate.form(joiUpdateRequest, joiOptions),*/
+      hashPassword(),
+      authenticate('jwt'),
+      beforeUpdateUsers],
+    patch: [
+      /*validate.form(joiPatchRequest, joiOptions),*/
+      hashPassword(),
+      authenticate('jwt'),
+      beforePatchUsers],
+    remove: [
+      authenticate('jwt'),
+      beforeRemoveUsers]
   },
   after: {
-    all: [protect('password')],
-    find: [],
-    get: [],
-    create: [],
-    update: [],
-    patch: [],
-    remove: []
+    all: [protect('password'), afterUsers],
+    find: [afterFindUsers],
+    get: [afterGetUsers],
+    create: [afterCreateUsers],
+    update: [afterUpdateUsers],
+    patch: [afterPatchUsers],
+    remove: [afterRemoveUsers]
   },
 
   error: {
-    all: [],
+    all: [log()],
     find: [],
     get: [],
     create: [],

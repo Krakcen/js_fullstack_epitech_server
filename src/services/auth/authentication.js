@@ -1,7 +1,10 @@
 const authentication = require('@feathersjs/authentication');
 const jwt = require('@feathersjs/authentication-jwt');
 const local = require('@feathersjs/authentication-local');
+const validate = require('feathers-hooks-validate-joi');
 
+const joiCreateRequest = require('../../schemas/requests/auth/create');
+const joiOptions = { convert: true, abortEarly: false };
 
 module.exports = function (app) {
   const config = app.get('authentication');
@@ -17,6 +20,7 @@ module.exports = function (app) {
   app.service('authentication').hooks({
     before: {
       create: [
+        validate.form(joiCreateRequest, joiOptions),
         authentication.hooks.authenticate(config.strategies)
       ],
       remove: [ /* Logout */

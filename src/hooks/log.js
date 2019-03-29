@@ -3,7 +3,7 @@
 // about the logger.
 const logger = require('../logger');
 const util = require('util');
-
+const colors = require('colors');
 // To see more detailed messages, uncomment the following line:
 // logger.level = 'debug';
 
@@ -11,13 +11,13 @@ module.exports = function () {
   return context => {
     // This debugs the service call and a stringified version of the hook context
     // You can customize the message (and logger) to your needs
-    logger.debug(`${context.type} app.service('${context.path}').${context.method}()`);
-    
-    if(typeof context.toJSON === 'function' && logger.level === 'debug') {
-      logger.debug('Hook Context', util.inspect(context, {colors: false}));
+    logger.debug(colors.yellow(`[${context.path}`) + '/'.red + colors.yellow(`${context.type}]`) + ' >> '.green + colors.underline(`${context.method}`));
+
+    if (typeof context.toJSON === 'function' && logger.level === 'debug') {
+      logger.debug('Hook Context', util.inspect(context, { colors: false }));
     }
-    
-    if(context.error && !context.result) {
+
+    if (context.error && !context.result) {
       logger.error(context.error.stack);
     }
   };

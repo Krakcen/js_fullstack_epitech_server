@@ -67,54 +67,622 @@ Veuliez suivre les instructions pour la mise en place sur le serveur.
 
 ## URL. 
 ➡️ **Authentication.**
+****
  - <span style="color:yellow">[POST]</span> http://localhost:3030/authencation/ : Obtenir un jeton.
     ```
     body : {
       strategy: 'local',
       email: 'secret1@gmail.com'
       password: 'secret'
+    },
+    params: {
+      nope
+    },
+    query: {
+      nope
     }
-    ```
-➡️ **Utilisateur.**
- - <span style="color:yellow">[POST]</span> http://localhost:3030/users/ : Inscrire un utilisateur.
-    ```
-    body : {
-      username: 'secret',
-      password: 'password',
-      email: 'secret@gmail.com'
+
+    res: {
+      "accessToken": ""
     }
     ```
 
-  - <span style="color:green">[GET]</span> http://localhost:3030/users/ : Information sur un utilisateur. 
+➡️ **Utilisateur.**
+****
+  - <span style="color:green">[GET]</span> http://localhost:3030/users/:id : Information sur un utilisateur par rapport à l'id. 
     ```
     authorization: bearer Token
     query: {
-      email: '',
-      role: '',
-      email: '',
-      createdAt: '',
-      updateAt: ''
+      nope
+    },
+    params: {
+      id: '5c8cf28425fd287e3448f5ee'
+    }
+
+    res: {
+      "_id": "5c8cf28425fd287e3448f5ee",
+      "role": "visiteur",
+      "username": "secret1",
+      "email": "secret1@gmail.com",
+      "createdAt": "2019-03-16T12:56:36.619Z",
+      "updatedAt": "2019-03-16T12:56:36.619Z",
+      "__v": 0
     }
     ```
- ➡️ **Stories.**
- - <span style="color:yellow">[GET]</span> http://localhost:3030/stories
+
+  - <span style="color:#ADFF2F">[FIND]</span> http://localhost:3030/users/ : Information sur un utilisateur. 
     ```
-    body : {
-      username: 'secret',
-      password: 'password',
-      email: 'secret@gmail.com'
+    authorization: bearer Token
+    query: {
+       _id = 5c9ca1dfa49dd230df81c2b9,
+       role = visiteur,
+       username = secret1,
+       email = secreet1@gmail.com",
+       createdAt = 2019-03-28T10:28:47.218Z,
+       updatedAt = 2019-03-28T10:28:47.218Z
+    },
+    params: {
+      nope
+    }
+
+    res: {
+       "total": 1,
+       "limit": 10,
+       "skip": 0,
+       "data": [
+        {
+            "_id": "5c9ca1dfa49dd230df81c2b9",
+            "role": "visiteur",
+            "username": "nicolas",
+            "email": "nicolas@gmail.com",
+            "createdAt": "2019-03-28T10:28:47.218Z",
+            "updatedAt": "2019-03-28T10:28:47.218Z",
+            "__v": 0
+        }
+      ]
     }
     ```
+
+  - <span style="color:yellow">[POST]</span> http://localhost:3030/users/ : Crée un utilisateur.
+    ```
+    authorization: nope
+    query: {
+      nope
+    },
+    params: {
+      
+    },
+    body: {
+      username : voiture
+      password : voiture
+      email : voiture@gmail.com
+    }
+
+    res: {
+      "role": "visiteur",
+      "_id": "5c9cec67d2333f427e9314e0",
+      "username": "voiture",
+      "email": "voiture@gmail.com",
+      "createdAt": "2019-03-28T15:46:47.967Z",
+      "updatedAt": "2019-03-28T15:46:47.967Z",
+      "__v": 0
+    }
+    ```
+
+
+  - <span style="color:#6495ED">[PUT]</span> http://localhost:3030/users/ : Modifier tout un utilisateur
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+      
+    }
+    ```
+
+  - <span style="color:gray">[PATCH]</span> http://localhost:3030/users/ : Modifier un params de l'utilisateur
+    ```
+    authorization: bearer Token
+    query: {
+      nope
+    },
+    params: {
+      id: '5c8cf28425fd287e3448f5ee'
+    },
+    body: {
+      "_id": "5c8cf28425fd287e3448f5ee",
+      "role": "visiteur",
+      "username": "secret1",
+      "email": "email@gmail.com",
+      "createdAt": "2019-03-16T12:56:36.619Z",
+      "updatedAt": "2019-03-28T16:11:06.500Z",
+    }
+
+    res: {
+       "_id": "5c8cf28425fd287e3448f5ee",
+       "role": "visiteur",
+       "username": "secret1",
+       "email": "email@gmail.com",
+       "createdAt": "2019-03-16T12:56:36.619Z",
+       "updatedAt": "2019-03-28T16:11:06.500Z",
+    }
+    ```
+
+
+- <span style="color:red">[DELETE]</span> http://localhost:3030/users/:id : Supprimer un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+      nope
+    },
+    params: {
+      id
+    },
+    body: {
+      nope
+    }
+
+    res: {
+      "_id": "5c9ca1dfa49dd230df81c2b9",
+      "role": "visiteur",
+      "username": "nicolas",
+      "email": "nicolas@gmail.com",
+      "createdAt": "2019-03-28T10:28:47.218Z",
+      "updatedAt": "2019-03-28T10:28:47.218Z",
+      "__v": 0
+    }
+    ```
+
+ ️ **Story.**
+ ****
+  - <span style="color:green">[GET]</span> http://localhost:3030/story/:id : Information sur un utilisateur. 
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+
+    }
+
+    res: {
+
+    }
+    ```
+
+  - <span style="color:#ADFF2F">[FIND]</span> http://localhost:3030/story/ : Information sur un utilisateur. 
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    }
+
+    res: {
+
+    }
+    ```
+
+  - <span style="color:yellow">[POST]</span> http://localhost:3030/story/ : Inscrire un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+
+    }
+    ```
+
+
+  - <span style="color:#6495ED">[PUT]</span> http://localhost:3030/story/ : Inscrire un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+      
+    }
+    ```
+
+  - <span style="color:gray">[PATCH]</span> http://localhost:3030/story/ : Inscrire un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+      
+    }
+    ```
+
+
+- <span style="color:red">[DELETE]</span> http://localhost:3030/story/ : Inscrire un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+      
+    }
+    ```
+
+**Stories.**
+****
+  - <span style="color:green">[GET]</span> http://localhost:3030/stories/:id : Information sur un utilisateur. 
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+
+    }
+
+    res: {
+
+    }
+    ```
+
+  - <span style="color:#ADFF2F">[FIND]</span> http://localhost:3030/stories/ : Information sur un utilisateur. 
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    }
+
+    res: {
+
+    }
+    ```
+
+  - <span style="color:yellow">[POST]</span> http://localhost:3030/stories/ : Inscrire un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+
+    }
+    ```
+
+
+  - <span style="color:#6495ED">[PUT]</span> http://localhost:3030/stories/ : Inscrire un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+      
+    }
+    ```
+
+  - <span style="color:gray">[PATCH]</span> http://localhost:3030/stories/ : Inscrire un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+      
+    }
+    ```
+
+
+- <span style="color:red">[DELETE]</span> http://localhost:3030/stories/ : Inscrire un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+      
+    }
+    ```
+
+ ️➡️ **Block.**
+ ****
+  - <span style="color:green">[GET]</span> http://localhost:3030/block/:id : Information sur un utilisateur. 
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+
+    }
+
+    res: {
+
+    }
+    ```
+
+  - <span style="color:#ADFF2F">[FIND]</span> http://localhost:3030/block/ : Information sur un utilisateur. 
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    }
+
+    res: {
+
+    }
+    ```
+
+  - <span style="color:yellow">[POST]</span> http://localhost:3030/block/ : Inscrire un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+
+    }
+    ```
+
+
+  - <span style="color:#6495ED">[PUT]</span> http://localhost:3030/block/ : Inscrire un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+      
+    }
+    ```
+
+  - <span style="color:gray">[PATCH]</span> http://localhost:3030/block/ : Inscrire un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+      
+    }
+    ```
+
+
+- <span style="color:red">[DELETE]</span> http://localhost:3030/block/ : Inscrire un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+      
+    }
+    ```
+
  ️➡️ **Blocks.**
-  - <span style="color:yellow">[GET]</span> http://localhost:3030/stories
+ ****
+  - <span style="color:green">[GET]</span> http://localhost:3030/blocks/:id : Information sur un utilisateur. 
     ```
-    body : {
-      username: 'secret',
-      password: 'password',
-      email: 'secret@gmail.com'
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+
+    }
+
+    res: {
+
     }
     ```
- 
+
+  - <span style="color:#ADFF2F">[FIND]</span> http://localhost:3030/blocks/ : Information sur un utilisateur. 
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    }
+
+    res: {
+
+    }
+    ```
+
+  - <span style="color:yellow">[POST]</span> http://localhost:3030/blocks/ : Inscrire un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+
+    }
+    ```
+
+
+  - <span style="color:#6495ED">[PUT]</span> http://localhost:3030/blocks/ : Inscrire un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+      
+    }
+    ```
+
+  - <span style="color:gray">[PATCH]</span> http://localhost:3030/blocks/ : Inscrire un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+      
+    }
+    ```
+
+
+- <span style="color:red">[DELETE]</span> http://localhost:3030/blocks/ : Inscrire un utilisateur.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
+    },
+    body: {
+
+    }
+
+    res: {
+      
+    }
+    ```
+
+## CHANNEL. 
+
+️➡️ **Visiteur.** /visiteur/ : No connecter.
+
+️➡️ **Membres.** /membres/ : Connecter
+
+️➡️ **Story.** /story/id
+ ```
+ {
+   action : 'patch'
+   by: userId,
+   result: [Object]
+ }
+ ```
+️➡️ **Block.**
+
+
+
 ## Auteurs
  👤 **Hugo Villevieille** - Developpeur informatique : hugo.villevieille@epitech.eu</br>
  👤 **Nicolas Fontanet** - Developpeur informatique : nicolas.fontanet@epitech.eu</br>
