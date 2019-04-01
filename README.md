@@ -672,6 +672,35 @@ Veuliez suivre les instructions pour la mise en place sur le serveur.
 ️➡️ **Membres.** /membres/ : Connecter
 
 ️➡️ **Story.** /story/id
+
+- 💬 focus
+ ```
+ {
+   action : 'get'
+   by: userId,
+   result: [Object]
+ }
+ ```
+
+- 💬 unfocus
+ ```
+ {
+   action : 'unfocus'
+   by: userId,
+   result: [Object]
+ }
+ ```
+
+- 💬 put
+ ```
+ {
+   action : 'put'
+   by: userId,
+   result: [Object]
+ }
+ ```
+
+- 💬 patch
  ```
  {
    action : 'patch'
@@ -679,6 +708,16 @@ Veuliez suivre les instructions pour la mise en place sur le serveur.
    result: [Object]
  }
  ```
+
+ - 💬 delete
+ ```
+ {
+   action : 'delete'
+   by: userId,
+   result: [Object]
+ }
+ ```
+
 ️➡️ **Block.**
 
 
