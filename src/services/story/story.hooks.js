@@ -4,6 +4,7 @@ const {
   protect
 } = require('@feathersjs/authentication-local').hooks;
 const validate = require('feathers-hooks-validate-joi');
+const errors = require('feathers-errors');
 
 
 const logger = require('../../logger');
@@ -22,29 +23,92 @@ const beforeStory = async context => {
 }
 
 const beforeFindStory = async context => {
+  const {
+    app,
+    params
+  } = context;
+
+  const userFound = await app.services.users.get(params.payload.userId);
+  app.channel('story').leave(connection => {
+    return connection.user._id === userFound._id
+  });
 
   return context;
 }
 
 const beforeGetStory = async context => {
+  const {
+    app,
+    params
+  } = context;
+
+  const userFound = await app.services.users.get(params.payload.userId);
+  app.channel('stories').leave(connection => {
+    return connection.user._id === userFound._id
+  });
 
   return context;
 }
 
 const beforeCreateStory = async context => {
-  // Rien.
+  const {
+    app,
+    params
+  } = context;
+
+  const userFound = await app.services.users.get(params.payload.userId);
+  app.channel('stories').leave(connection => {
+    return connection.user._id === userFound._id
+  });
+
   return context;
 };
 
 const beforeUpdateStory = async context => {
+  const {
+    app,
+    params
+  } = context;
+
+  const userFound = await app.services.users.get(params.payload.userId);
+  app.channel('stories').leave(connection => {
+    return connection.user._id === userFound._id
+  });
+
   return context;
 }
 
 const beforePatchStory = async context => {
+  const {
+    app,
+    params
+  } = context;
+
+  const userFound = await app.services.users.get(params.payload.userId);
+  app.channel('stories').leave(connection => {
+    return connection.user._id === userFound._id
+  });
+
   return context;
 }
 
 const beforeRemoveStory = async context => {
+  const {
+    app,
+    params
+  } = context;
+
+  const userFound = await app.services.users.get(params.payload.userId);
+  app.channel('stories').leave(connection => {
+    return connection.user._id === userFound._id
+  });
+
+  const storyFound = await app.services.stories.get(params.id);
+
+  if (storyFound.author !== userFound._id) {
+    throw errors.NotAcceptable('no author in story');
+  }
+
   return context;
 }
 
@@ -57,12 +121,42 @@ const afterStory = async context => {
 }
 
 const afterFindStory = async context => {
+  const {
+    app,
+    params,
+    result
+  } = context;
 
+  const userFound = await app.services.users.get(params.payload.userId);
+  const channel = app.channel(`stories`)
+  channel.join(userFound)
+  channel.send({
+    action: 'find',
+    on: '*',
+    by: params.payload.userId,
+    result
+  });
   return context;
 }
 
 const afterGetStory = async context => {
 
+  const {
+    data,
+    result,
+    app,
+    params
+  } = context;
+
+  const channel = app.channel(`story`)
+  const authorFound = await app.services.users.get(result.author);
+  channel.join(authorFound);
+  channel.send({
+    action: 'create',
+    on: result._id,
+    by: params.payload.userId,
+    result
+  });
   return context;
 }
 
@@ -74,11 +168,12 @@ const afterCreateStory = async context => {
     params
   } = context;
 
-  const channel = app.channel(`story/${result._id}/`)
+  const channel = app.channel(`story`)
   const authorFound = await app.services.users.get(result.author);
   channel.join(authorFound);
   channel.send({
     action: 'create',
+    on: result._id,
     by: params.payload.userId,
     result
   });
@@ -87,17 +182,17 @@ const afterCreateStory = async context => {
 
 const afterUpdateStory = async context => {
   const {
-    data,
     result,
     app,
     params
   } = context;
 
-  const channel = app.channel(`story/${result._id}/`)
+  const channel = app.channel(`story`)
   const userFound = await app.services.users.get(params.payload.userId);
   channel.join(userFound)
   channel.send({
     action: 'update',
+    on: result._id,
     by: params.payload.userId,
     result
   });
@@ -107,11 +202,12 @@ const afterUpdateStory = async context => {
 
 const afterPatchStory = async context => {
 
-  const channel = app.channel(`story/${result._id}/`)
+  const channel = app.channel(`story`)
   const userFound = await app.services.users.get(params.payload.userId);
   channel.join(userFound)
   channel.send({
     action: 'patch',
+    on: result._id,
     by: params.payload.userId,
     result
   });
@@ -125,8 +221,20 @@ const afterRemoveStory = async context => {
     result
   } = context;
 
-  const channel = app.channel(`story/${result._id}/`)
+  const channel = app.channel(`story`)
+  const userFound = await app.services.users.get(params.payload.userId);
 
+  channel.join(userFound)
+  channel.send({
+    action: 'remove',
+    on: result._id,
+    by: params.payload.userId,
+    result
+  });
+
+  app.channel('story').leave(connection => {
+    return connection.user._id === userFound._id
+  });
 
   return context;
 }
@@ -143,6 +251,7 @@ module.exports = {
       beforeFindStory
     ],
     get: [
+      authenticate('jwt'),
       beforeGetStory
     ],
     create: [
