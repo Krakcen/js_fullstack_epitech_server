@@ -25,17 +25,13 @@
     "test": "test/",
     "config": "config/"
   },
-  "engines": {
-    "node": "^8.0.0",
-    "npm": ">= 3.0.0"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Krakcen/js_fullstack_epitech_server.git"
+    "url": "https://gitlab.hugoworld.me/shared/storyfactoryserver.git"
   },
   "scripts": {
     "start": "node src/",
-    "dev": "nodemon src/",
+    "dev": "export NODE_ENV=development && nodemon src/",
     "test": "npm run eslint && NODE_ENV= npm run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "mocha": "mocha test/ --recursive --exit"
@@ -62,6 +58,7 @@
     "helmet": "^3.15.1",
     "i18n": "^0.8.3",
     "joi": "^14.3.1",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
     "migrate-mongo": "^5.0.1",
     "mongodb-core": "^3.1.8",
