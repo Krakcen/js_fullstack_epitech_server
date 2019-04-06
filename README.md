@@ -83,7 +83,10 @@ Veuliez suivre les instructions pour la mise en place sur le serveur.
     }
 
     res: {
-      "accessToken": ""
+      "accessToken": "",
+      "email": "voiture@gmail.com",
+      "username": "voiture",
+      "role": "visiteur"
     }
     ```
 
@@ -243,51 +246,79 @@ Veuliez suivre les instructions pour la mise en place sur le serveur.
 
  ️ **Story.**
  ****
-  - <span style="color:green">[GET]</span> http://localhost:3030/story/:id : Information sur un utilisateur. 
+  - <span style="color:green">[GET]</span> http://localhost:3030/story/:id : Trouve une histoire par son id. 
     ```
     authorization: bearer Token
     query: {
-
+      nope
     },
     params: {
-
-    }
-
-    res: {
-
-    }
-    ```
-
-  - <span style="color:#ADFF2F">[FIND]</span> http://localhost:3030/story/ : Information sur un utilisateur. 
-    ```
-    authorization: bearer Token
-    query: {
-
-    },
-    params: {
-      
-    }
-
-    res: {
-
-    }
-    ```
-
-  - <span style="color:yellow">[POST]</span> http://localhost:3030/story/ : Inscrire un utilisateur.
-    ```
-    authorization: bearer Token
-    query: {
-
-    },
-    params: {
-      
+      id: ''
     },
     body: {
+      title: '',
+      nombreOfBlockDefault: '',
+      nombreOfBlock: '',
+      author: '',
+      synopsis: '',
+    }
 
+    res: {
+      "_id": "5ca91b990bcc766137577ecb",
+      "title": "La Trilogie du magicien noir",
+      "blocks": [],
+      "nombreOfBlockDefault": 4,
+      "nombreOfBlock": 0,
+      "author": "5ca918676afccf5ce69c5172",
+      "synopsis": "Cette jeune fille est plus puissante que la moyenne de nos élèves, peut-être même plus que nos mages! Elle est un danger. Il faut la trouver et l'arrêter. Si c'est une renégate, la loi nous oblige à l'amener devant le roi. ",
+      "createdAt": "2019-04-06T21:35:21.233Z",
+      "updatedAt": "2019-04-06T21:35:21.233Z",
+      "__v": 0
+    }
+    ```
+
+  - <span style="color:#ADFF2F">[FIND]</span> http://localhost:3030/story/ : Trouve une histoire par un params.
+    ```
+    authorization: bearer Token
+    query: {
+
+    },
+    params: {
+      
     }
 
     res: {
 
+    }
+    ```
+
+  - <span style="color:yellow">[POST]</span> http://localhost:3030/story/ : Crée une histoire.
+    ```
+    authorization: bearer Token
+    query: {
+      nope
+    },
+    params: {
+      nope
+    },
+    body: {
+      author: '',
+      title: '',
+      synopsis: '',
+      nombreOfBlockDefault: ''
+    }
+
+    res: {
+      "title": "La Trilogie du magicien noir",
+      "blocks": [],
+      "nombreOfBlockDefault": 4,
+      "nombreOfBlock": 0,
+      "_id": "5ca91b990bcc766137577ecb",
+      "author": "5ca918676afccf5ce69c5172",
+      "synopsis": "Cette jeune fille est plus puissante que la moyenne de nos élèves, peut-être même plus que nos mages! Elle est un danger. Il faut la trouver et l'arrêter. Si c'est une renégate, la loi nous oblige à l'amener devant le roi. ",
+      "createdAt": "2019-04-06T21:35:21.233Z",
+      "updatedAt": "2019-04-06T21:35:21.233Z",
+      "__v": 0
     }
     ```
 
