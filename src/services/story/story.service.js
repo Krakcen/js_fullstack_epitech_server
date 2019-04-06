@@ -1,17 +1,15 @@
 // Initializes the `story` service on path `/story`
-const createService = require('./story.class');
-const createModelStories = require('../../models/stories.model');
+const createService = require('feathers-mongoose');
+const createModel = require('../../models/stories.model');
 const hooks = require('./story.hooks');
 
 module.exports = function (app) {
-  createModelStories(app);
-  const mongooseClient = app.get('mongooseClient');
-
+  const Model = createModel(app);
   const paginate = app.get('paginate');
 
   const options = {
     name: 'story',
-    Models: mongooseClient.models,
+    Model,
     paginate
   };
 

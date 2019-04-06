@@ -16,10 +16,11 @@ module.exports = function (app) {
       // Obtenir l'utilisateur connecté à partir de la connexion
       const { user } = connection;
       app.channel('visiteur').leave(connection);
-      app.channel('authenticated').join(connection);
+      app.channel('membres').join(connection);
 
       // Channels can be named anything and joined on any condition 
 
+      console.log(user)
       // E.g. to send real-time events only to admins use
       // if(user.isAdmin) { app.channel('admins').join(connection); }
 
@@ -47,7 +48,7 @@ module.exports = function (app) {
     console.log('Publishing all events to all authenticated users. See `channels.js` and https://docs.feathersjs.com/api/channels.html for more information.'); // eslint-disable-line
 
     // e.g. to publish all service events to all authenticated users use
-    return app.channel('authenticated');
+    return app.channel('membre');
   });
 
   // Here you can also add service specific event publishers

@@ -1,7 +1,11 @@
-const authentication = require("@feathersjs/authentication");
-const jwt = require("@feathersjs/authentication-jwt");
-const local = require("@feathersjs/authentication-local");
+const authentication = require('@feathersjs/authentication');
+const jwt = require('@feathersjs/authentication-jwt');
+const local = require('@feathersjs/authentication-local');
+const validate = require('feathers-hooks-validate-joi');
 const jwtToken = require("jsonwebtoken");
+
+const joiCreateRequest = require('../../schemas/requests/auth/create');
+const joiOptions = { convert: true, abortEarly: false };
 
 const getUserInfo = () => {
   return async context => {
@@ -34,11 +38,15 @@ module.exports = function(app) {
   // pour créer un nouveau JWT valide (par exemple local ou oauth2)
   app.service("authentication").hooks({
     before: {
-      create: [authentication.hooks.authenticate(config.strategies)],
-      remove: [
+      create: [
+        validate.form(joiCreateRequest, joiOptions),
+        authentication.hooks.authenticate(config.strategies)
+      ],
+            remove: [
         /* Logout */
         authentication.hooks.authenticate("jwt"),
       ],
+
     },
     after: {
       create: [getUserInfo()],

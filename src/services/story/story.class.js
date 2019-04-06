@@ -8,85 +8,95 @@ class Service {
   }
 
   async find (params) {
-    try {
-      logger.info('Get by params of story');
-      const {
-        query
-      } = params;
+    logger.info('Get by params of story');
+    const {
+      query
+    } = params;
 
-      const storyFound = await this.models.stories.find(query);
-      if (!storyFound) {
-        throw errors.NotFound('story no found');
-      }
-      return storyFound;
-    } catch (err) {
-      logger.error(err);
-      throw err;
+    const storyFound = await this.models.stories.find(query);
+    if (!storyFound) {
+      throw errors.NotFound('story no found');
     }
+    return storyFound;
   }
 
   async get (id) {
-    try {
-      logger.info(`Get by ${id} of story`);
+    logger.info(`Get by ${id} of story`);
 
-      const storyFound = await this.models.stories.findById(id);
-      if (!storyFound) {
-        throw errors.NotFound('story no found');
-      }
-      return storyFound;
-    } catch (err) {
-      logger.error(err);
-      throw err;
+    const storyFound = await this.models.stories.findById(id);
+    if (!storyFound) {
+      throw errors.NotFound('story no found');
     }
+    return storyFound;
   }
 
   async create (data) {
-    try {
-      logger.info('create a new Story');
+    logger.info('create a new Story');
 
-      const {
-        author,
-        title,
-        synopsis,
-        nombreOfBlockDefault
-      } = data;
+    const {
+      author,
+      title,
+      synopsis,
+      nombreOfBlockDefault
+    } = data;
 
-      const authorFound = await this.models.users.findById(author);
-      if (!authorFound) {
-        throw errors.NotFound('author no found');
-      }
+    const authorFound = await this.models.users.findById(author);
+    if (!authorFound) {
+      throw errors.NotFound('author no found');
+    }
 
-      logger.info('authorFound ' + ': '.red + authorFound.username +
-        '\n -'.blue + ` id : ${authorFound._id}`);
+    logger.info('authorFound ' + ': '.red + authorFound.username +
+      '\n -'.blue + ` id : ${authorFound._id}`);
 
-      const newStory = new this.models.stories({
-        author: authorFound._id,
-        title,
-        synopsis,
-        nombreOfBlockDefault,
-        nombreOfBlock: 0,
-        blocks: []
+    const newStory = new this.models.stories({
+      author: authorFound._id,
+      title,
+      synopsis,
+      nombreOfBlockDefault,
+      nombreOfBlock: 0,
+      blocks: []
+    });
+
+    if (!newStory) {
+      throw errors.NotImplemented('the created story is failed');
+    }
+
+    const saveStory = await newStory.save()
+      .then(data => data)
+      .catch((err) => {
+        console.log(err);
+        return undefined;
       });
 
-      if (!newStory) {
-        throw errors.NotImplemented('the created story is failed');
-      }
+    if (!saveStory) {
+      throw errors.NotImplemented('the created story is failed');
+    }
 
-      const saveStory = await newStory.save()
-        .then(data => data)
-        .catch((err) => {
-          console.log(err);
-          return undefined;
-        });
+    return {
+      id: saveStory._id,
+      title: saveStory.title
+    };
+  }
 
-      if (!saveStory) {
-        throw errors.NotImplemented('the created story is failed');
-      }
+  async update (id, data, params) { /* tout modifier */
+    logger.info('Update story : ');
 
-      return {
-        id: saveStory._id,
-        title: saveStory.title
-      };
+    const storyFound = await this.models.stories.findById(id);
+    if (!storyFound) {
+      throw errors.NotFound('story no found');
+    }
+
+    if (storyFound.author !== params.user._id) {
+      console.log('passe')
+      throw errors.NotAuthenticated('is no auth to update the story');
+    }
+    return data;
+  }
+
+  async patch (id, data, params) { /*  */
+    try {
+      logger.info('Patch story : ');
+      return data;
     }
     catch (err) {
       logger.error(err);
@@ -94,19 +104,15 @@ class Service {
     }
   }
 
-  async update (id, data, params) {
-    logger.info('Update story : ');
-    return data;
-  }
-
-  async patch (id, data, params) {
-    logger.info('Patch story : ');
-    return data;
-  }
-
   async remove (id, params) {
-    logger.info('Remove story : ');
-    return { id };
+    try {
+      logger.info('Remove story : ');
+      return { id };
+    }
+    catch (err) {
+      logger.error(err);
+      throw err;
+    }
   }
 }
 
