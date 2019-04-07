@@ -7,6 +7,11 @@
     Story Factory permet de créer une histoire en colaboration avec plus utilisateur. 
     Vous choisiez votre titre. Vous ajoutez votre synopsis. Vous choisiez le nombre de blocks que peut écrire un utilisateur. 
 
+
+## Release Notes
+
+1. J'ai enlevé schéma Joi temporairement pour pouvoir connecter un client avec un token jwt.
+
 ## Pour commencer
 
 La mise en service est aussi simple que 1, 2, 3.

@@ -26,7 +26,7 @@ const beforeGetBlock = async context => {
   return context;
 }
 
-const beforeCreatBlock = async context => {
+const beforeCreateBlock = async context => {
   // Rien.
   return context;
 };

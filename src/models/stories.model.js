@@ -1,5 +1,5 @@
 // stories-model.js - A mongoose model
-// 
+//
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
 module.exports = function (app) {
@@ -33,7 +33,7 @@ module.exports = function (app) {
     },
     nombreOfBlock: {
       type: Number,
-      require: true,
+      required: true,
       default: 0
     }
   }, {

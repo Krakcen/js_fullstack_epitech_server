@@ -39,7 +39,7 @@ module.exports = function(app) {
   app.service("authentication").hooks({
     before: {
       create: [
-        validate.form(joiCreateRequest, joiOptions),
+        /*validate.form(joiCreateRequest, joiOptions),*/
         authentication.hooks.authenticate(config.strategies)
       ],
             remove: [
