@@ -52,6 +52,7 @@
     "express-boom": "^3.0.0",
     "feathers-hooks-common": "^4.20.7",
     "feathers-hooks-validate-joi": "^2.0.0",
+    "feathers-memory": "^3.0.2",
     "feathers-mongoose": "^7.3.1",
     "feathers-permissions": "^0.2.1",
     "feathers-swagger": "^0.7.2",

@@ -18,7 +18,7 @@ module.exports = function (app) {
     },
     synopsis: {
       type: String,
-      maxlength: 255,
+      maxlength: 800,
       required: true
     },
     blocks: [{

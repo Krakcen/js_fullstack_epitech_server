@@ -16,7 +16,7 @@ const getUserInfo = () => {
 
       let resp = await app.service("users").get(user.userId);
 
-      context.result = { ...context.result, email: resp.email, username: resp.username, role: resp.role };
+      context.result = { ...context.result, email: resp.email, username: resp.username, role: resp.role, _id: resp._id };
 
       return context;
     } catch (error) {

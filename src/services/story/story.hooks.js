@@ -28,10 +28,11 @@ const beforeFindStory = async context => {
     params
   } = context;
 
-  const userFound = await app.services.users.get(params.payload.userId);
-  app.channel('story').leave(connection => {
-    return connection.user._id === userFound._id
-  });
+  //const userFound = await app.services.users.get(params.payload.userId);
+  // app.channel('story').leave(connection => {
+  //   logger.info(connection);
+  //   return connection.user._id === userFound._id
+  // });
 
   return context;
 }
@@ -42,10 +43,11 @@ const beforeGetStory = async context => {
     params
   } = context;
 
-  const userFound = await app.services.users.get(params.payload.userId);
-  app.channel('stories').leave(connection => {
-    return connection.user._id === userFound._id
-  });
+  //const userFound = await app.services.users.get(params.payload.userId);
+  // app.channel('stories').leave(connection => {
+  //   logger.info(connection);
+  //   return connection.user._id === userFound._id
+  // });
 
   return context;
 }
@@ -57,9 +59,10 @@ const beforeCreateStory = async context => {
   } = context;
 
   const userFound = await app.services.users.get(params.payload.userId);
-  app.channel('stories').leave(connection => {
-    return connection.user._id === userFound._id
-  });
+  // app.channel('stories').leave(connection => {
+  //   logger.info(connection);
+  //   return connection.user._id === userFound._id
+  // });
 
   return context;
 };
@@ -71,9 +74,10 @@ const beforeUpdateStory = async context => {
   } = context;
 
   const userFound = await app.services.users.get(params.payload.userId);
-  app.channel('stories').leave(connection => {
-    return connection.user._id === userFound._id
-  });
+  // app.channel('stories').leave(connection => {
+  //   logger.info(connection);
+  //   return connection.user._id === userFound._id
+  // });
 
   return context;
 }
@@ -85,9 +89,10 @@ const beforePatchStory = async context => {
   } = context;
 
   const userFound = await app.services.users.get(params.payload.userId);
-  app.channel('stories').leave(connection => {
-    return connection.user._id === userFound._id
-  });
+  // app.channel('stories').leave(connection => {
+  //   logger.info(connection);
+  //   return connection.user._id === userFound._id
+  // });
 
   return context;
 }
@@ -95,18 +100,28 @@ const beforePatchStory = async context => {
 const beforeRemoveStory = async context => {
   const {
     app,
-    params
+    params,
+    id
   } = context;
 
   const userFound = await app.services.users.get(params.payload.userId);
-  app.channel('stories').leave(connection => {
-    return connection.user._id === userFound._id
-  });
+  // app.channel('stories').leave(connection => {
+  //   logger.info(connection);
+  //   return connection.user._id === userFound._id
+  // });
 
-  const storyFound = await app.services.stories.get(params.id);
+  const storyFound = await app.services.story.get(id);
 
-  if (storyFound.author !== userFound._id) {
-    throw errors.NotAcceptable('no author in story');
+  console.log("KEKEK");
+  console.log(storyFound.author);
+  console.log(userFound._id);
+
+
+  // throw new Error("wip");
+
+  if (!storyFound.author.equals(userFound._id)) {
+    throw new Error("not authorized");
+    // throw errors.NotAcceptable('no author in story');
   }
 
   return context;
@@ -127,15 +142,15 @@ const afterFindStory = async context => {
     result
   } = context;
 
-  const userFound = await app.services.users.get(params.payload.userId);
-  const channel = app.channel(`stories`)
-  channel.join(userFound)
-  channel.send({
-    action: 'find',
-    on: '*',
-    by: params.payload.userId,
-    result
-  });
+  // const userFound = await app.services.users.get(params.payload.userId);
+  // const channel = app.channel(`stories`)
+  // channel.join(userFound)
+  // channel.send({
+  //   action: 'find',
+  //   on: '*',
+  //   by: params.payload.userId,
+  //   result
+  // });
   return context;
 }
 
@@ -148,15 +163,15 @@ const afterGetStory = async context => {
     params
   } = context;
 
-  const channel = app.channel(`story`)
-  const authorFound = await app.services.users.get(result.author);
-  channel.join(authorFound);
-  channel.send({
-    action: 'create',
-    on: result._id,
-    by: params.payload.userId,
-    result
-  });
+  // const channel = app.channel(`story`)
+  // const authorFound = await app.services.users.get(result.author);
+  // channel.join(authorFound);
+  // channel.send({
+  //   action: 'create',
+  //   on: result._id,
+  //   by: params.payload.userId,
+  //   result
+  // });
   return context;
 }
 
@@ -168,15 +183,15 @@ const afterCreateStory = async context => {
     params
   } = context;
 
-  const channel = app.channel(`story`)
-  const authorFound = await app.services.users.get(result.author);
-  channel.join(authorFound);
-  channel.send({
-    action: 'create',
-    on: result._id,
-    by: params.payload.userId,
-    result
-  });
+  // const channel = app.channel(`story`)
+  // const authorFound = await app.services.users.get(result.author);
+  // channel.join(authorFound);
+  // channel.send({
+  //   action: 'create',
+  //   on: result._id,
+  //   by: params.payload.userId,
+  //   result
+  // });
   return context;
 };
 
@@ -187,30 +202,30 @@ const afterUpdateStory = async context => {
     params
   } = context;
 
-  const channel = app.channel(`story`)
-  const userFound = await app.services.users.get(params.payload.userId);
-  channel.join(userFound)
-  channel.send({
-    action: 'update',
-    on: result._id,
-    by: params.payload.userId,
-    result
-  });
+  // const channel = app.channel(`story`)
+  // const userFound = await app.services.users.get(params.payload.userId);
+  // channel.join(userFound)
+  // channel.send({
+  //   action: 'update',
+  //   on: result._id,
+  //   by: params.payload.userId,
+  //   result
+  // });
 
   return context;
 }
 
 const afterPatchStory = async context => {
 
-  const channel = app.channel(`story`)
-  const userFound = await app.services.users.get(params.payload.userId);
-  channel.join(userFound)
-  channel.send({
-    action: 'patch',
-    on: result._id,
-    by: params.payload.userId,
-    result
-  });
+  // const channel = app.channel(`story`)
+  // const userFound = await app.services.users.get(params.payload.userId);
+  // channel.join(userFound)
+  // channel.send({
+  //   action: 'patch',
+  //   on: result._id,
+  //   by: params.payload.userId,
+  //   result
+  // });
 
   return context;
 }
@@ -218,23 +233,24 @@ const afterPatchStory = async context => {
 const afterRemoveStory = async context => {
   const {
     data,
-    result
+    result,
+    app,
   } = context;
 
-  const channel = app.channel(`story`)
-  const userFound = await app.services.users.get(params.payload.userId);
+  // const channel = app.channel(`story`)
+  // const userFound = await app.services.users.get(params.payload.userId);
 
-  channel.join(userFound)
-  channel.send({
-    action: 'remove',
-    on: result._id,
-    by: params.payload.userId,
-    result
-  });
+  // channel.join(userFound)
+  // channel.send({
+  //   action: 'remove',
+  //   on: result._id,
+  //   by: params.payload.userId,
+  //   result
+  // });
 
-  app.channel('story').leave(connection => {
-    return connection.user._id === userFound._id
-  });
+  // app.channel('story').leave(connection => {
+  //   return connection.user._id === userFound._id
+  // });
 
   return context;
 }
@@ -251,7 +267,6 @@ module.exports = {
       beforeFindStory
     ],
     get: [
-      authenticate('jwt'),
       beforeGetStory
     ],
     create: [

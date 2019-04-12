@@ -4,6 +4,14 @@ module.exports = function (app) {
     return;
   }
 
+  // only allpow
+  app.service('methods').publish((data, context) => {
+    console.log("DATA");
+    console.log(data);
+    return (app.channel(data.story_room));
+    //return app.channel(`rooms/${data.roomId}`);
+  });
+
   // Joindre le site.
   app.on('connection', connection => {
     app.channel('visiteur').join(connection);
@@ -18,7 +26,7 @@ module.exports = function (app) {
       app.channel('visiteur').leave(connection);
       app.channel('membres').join(connection);
 
-      // Channels can be named anything and joined on any condition 
+      // Channels can be named anything and joined on any condition
 
       console.log(user)
       // E.g. to send real-time events only to admins use
@@ -48,7 +56,7 @@ module.exports = function (app) {
     console.log('Publishing all events to all authenticated users. See `channels.js` and https://docs.feathersjs.com/api/channels.html for more information.'); // eslint-disable-line
 
     // e.g. to publish all service events to all authenticated users use
-    return app.channel('membre');
+    return app.channel('membres');
   });
 
   // Here you can also add service specific event publishers
