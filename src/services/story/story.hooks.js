@@ -74,6 +74,12 @@ const beforeUpdateStory = async context => {
   } = context;
 
   const userFound = await app.services.users.get(params.payload.userId);
+  const storyFound = await app.services.story.get(id);
+
+  if (!storyFound.author.equals(userFound._id)) {
+    throw new Error("not authorized");
+    // throw errors.NotAcceptable('no author in story');
+  }
   // app.channel('stories').leave(connection => {
   //   logger.info(connection);
   //   return connection.user._id === userFound._id
@@ -89,6 +95,12 @@ const beforePatchStory = async context => {
   } = context;
 
   const userFound = await app.services.users.get(params.payload.userId);
+  const storyFound = await app.services.story.get(id);
+
+  if (!storyFound.author.equals(userFound._id)) {
+    throw new Error("not authorized");
+    // throw errors.NotAcceptable('no author in story');
+  }
   // app.channel('stories').leave(connection => {
   //   logger.info(connection);
   //   return connection.user._id === userFound._id

@@ -32,14 +32,53 @@ const beforeCreateBlock = async context => {
 };
 
 const beforeUpdateBlock = async context => {
+  const {
+    app,
+    params,
+    id
+  } = context;
+
+  const userFound = await app.services.users.get(params.payload.userId);
+  const blockFound = await app.services.block.get(id);
+  if (!blockFound.author.equals(userFound._id)) {
+    throw new Error("not authorized");
+    // throw errors.NotAcceptable('no author in block');
+  }
+
   return context;
 }
 
 const beforePatchBlock = async context => {
+  const {
+    app,
+    params,
+    id
+  } = context;
+
+  const userFound = await app.services.users.get(params.payload.userId);
+  const blockFound = await app.services.block.get(id);
+  if (!blockFound.author.equals(userFound._id)) {
+    throw new Error("not authorized");
+    // throw errors.NotAcceptable('no author in block');
+  }
+
   return context;
 }
 
 const beforeRemoveBlock = async context => {
+  const {
+    app,
+    params,
+    id
+  } = context;
+
+  const userFound = await app.services.users.get(params.payload.userId);
+  const blockFound = await app.services.block.get(id);
+  if (!blockFound.author.equals(userFound._id)) {
+    throw new Error("not authorized");
+    // throw errors.NotAcceptable('no author in block');
+  }
+  
   return context;
 }
 
@@ -69,7 +108,17 @@ const afterCreateBlock = async context => {
     params
   } = context;
 
+  const idBlock = result;
+  const idStory = data.idStory;
   
+  console.log(idBlock)
+  console.log('idBlock :' + idBlock)
+  console.log('idStory :' + idStory)
+  
+  const foundStory = await app.services.story.get(idStory);
+  if (!foundStory){
+    throw new Error("story not found");
+  }
 
   return context;
 };
