@@ -21,21 +21,8 @@ const beforeUsers = async context => {
   return context;
 }
 
-const beforeFindUsers = async context => {
-  const {
-    params,
-    id
-  } = context;
-
-  return context;
-}
-
 const beforeGetUsers = async context => {
-  const {
-    params,
-    id
-  } = context;
-
+  
   return context;
 }
 
@@ -45,29 +32,17 @@ const beforeCreateUsers = async context => {
 };
 
 const beforeUpdateUsers = async context => {
-  const {
-    params,
-    id
-  } = context;
-
+  
   return context;
 }
 
 const beforePatchUsers = async context => {
-  const {
-    params,
-    id
-  } = context;
-
+  
   return context;
 }
 
 const beforeRemoveUsers = async context => {
-  const {
-    params,
-    id
-  } = context;
-
+  
   return context;
 }
 
@@ -79,13 +54,8 @@ const afterUsers = async context => {
   return context;
 }
 
-const afterFindUsers = async context => {
-
-  return context;
-}
-
 const afterGetUsers = async context => {
-
+  
   return context;
 }
 
@@ -115,9 +85,6 @@ const afterRemoveUsers = async context => {
 module.exports = {
   before: {
     all: [beforeUsers],
-    find: [
-      authenticate('jwt'),
-      beforeFindUsers],
     get: [
       authenticate('jwt'),
       beforeGetUsers],
@@ -127,12 +94,12 @@ module.exports = {
       beforeCreateUsers
     ],
     update: [
-      /* validate.form(joiUpdateRequest, joiOptions),*/
+      validate.form(joiUpdateRequest, joiOptions),
       hashPassword(),
       authenticate('jwt'),
       beforeUpdateUsers],
     patch: [
-      /*validate.form(joiPatchRequest, joiOptions),*/
+      validate.form(joiPatchRequest, joiOptions),
       hashPassword(),
       authenticate('jwt'),
       beforePatchUsers],
@@ -142,7 +109,6 @@ module.exports = {
   },
   after: {
     all: [protect('password'), afterUsers],
-    find: [afterFindUsers],
     get: [afterGetUsers],
     create: [afterCreateUsers],
     update: [afterUpdateUsers],

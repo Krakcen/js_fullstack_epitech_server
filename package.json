@@ -30,9 +30,8 @@
     "url": "https://gitlab.hugoworld.me/shared/storyfactoryserver.git"
   },
   "scripts": {
-    "start": "node src/",
-    "dev": "export NODE_ENV=development && nodemon src/",
-    "test": "npm run eslint && NODE_ENV= npm run mocha",
+    "start": "npm install --save && export NODE_ENV=production && migrate-mongo up && node src/",
+    "dev": "export NODE_ENV=development && migrate-mongo up && nodemon src/",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "mocha": "mocha test/ --recursive --exit"
   },
