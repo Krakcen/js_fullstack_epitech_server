@@ -1,5 +1,5 @@
-const usersError = require('./users/en')
+const usersError = require('./users/en');
+
 module.exports = {
   ...usersError,
-
 };

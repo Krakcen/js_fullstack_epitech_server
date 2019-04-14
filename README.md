@@ -29,6 +29,8 @@ La mise en service est aussi simple que 1, 2, 3.
     npm run start
     ```
 
+Le serveur se lance sur le port 3030, vous avez besoin du client servi sur un autre port
+
 ## Installation packages 
 - Dependencies:
 📦 **_@feathersjs/authentication_** (^2.1.16), 

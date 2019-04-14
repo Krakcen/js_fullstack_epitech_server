@@ -1,24 +1,17 @@
 const config = require('config');
-const colorsConsole = require('colors');
 const { createLogger, format, transports } = require('winston');
-const { timestamp, printf, label, colorize, json, prettyPrint } = format;
 
+const {
+  timestamp, printf, label, colorize, json,
+} = format;
 
+const formatConsole = printf(({ level, message, labels }) => `${`[📚 : ${labels}] `.blue + `${level}`.underline} : ${message}`);
 
-const formatConsole = printf(({ level, message, label }) => {
-  return `[📚 : ${label}] `.blue + `${level}`.underline + ` : ${message}`;
-});
-
-const formatFichier = printf(({ level, message, timestamp }) => {
-  return `${timestamp} [${level}] : ${message} `;
-});
+const formatFichier = printf(({ level, message, timestamps }) => `${timestamps} [${level}] : ${message} `);
 
 const fichier = new transports.File({
   filename: '../logs/apilog.log',
-  format: format.combine(
-    timestamp(),
-    formatFichier
-  )
+  format: format.combine(timestamp(), formatFichier),
 });
 
 const console = new transports.Console({
@@ -26,15 +19,15 @@ const console = new transports.Console({
     colorize(),
     json(),
     label({ label: config.get('title') }),
-    /*prettyPrint(),*/
+    /* prettyPrint(), */
     formatConsole,
-  )
+  ),
 });
 
 const logger = createLogger({
   // To see more detailed errors, change this to 'debug'
   level: 'debug',
-  exitOnError: true
+  exitOnError: true,
 });
 
 if (process.env.NODE_ENV !== 'production') {

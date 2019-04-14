@@ -5,40 +5,45 @@
 module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
-  const stories = new Schema({
-    author: {
-      type: Schema.ObjectId,
-      ref: 'users',
-      required: true
+  const stories = new Schema(
+    {
+      author: {
+        type: Schema.ObjectId,
+        ref: 'users',
+        required: true,
+      },
+      title: {
+        type: String,
+        default: 'Stories : Inconnue',
+        required: true,
+      },
+      synopsis: {
+        type: String,
+        maxlength: 800,
+        required: true,
+      },
+      blocks: [
+        {
+          type: Schema.ObjectId,
+          ref: 'blocks',
+          required: false,
+        },
+      ],
+      nombreOfBlockDefault: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+      nombreOfBlock: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
     },
-    title: {
-      type: String,
-      default: 'Stories : Inconnue',
-      required: true
+    {
+      timestamps: true,
     },
-    synopsis: {
-      type: String,
-      maxlength: 800,
-      required: true
-    },
-    blocks: [{
-      type: Schema.ObjectId,
-      ref: 'blocks',
-      required: false
-    }],
-    nombreOfBlockDefault: {
-      type: Number,
-      required: true,
-      default: 0
-    },
-    nombreOfBlock: {
-      type: Number,
-      required: true,
-      default: 0
-    }
-  }, {
-    timestamps: true
-  });
+  );
 
   return mongooseClient.model('stories', stories);
 };

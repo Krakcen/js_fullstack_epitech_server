@@ -1,64 +1,27 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const {
-  hashPassword,
-  protect
-} = require('@feathersjs/authentication-local').hooks;
+const { fastJoin, skipRemainingHooks, isProvider } = require('feathers-hooks-common');
 const validate = require('feathers-hooks-validate-joi');
-const errors = require('feathers-errors');
 
-
-const logger = require('../../logger');
 const log = require('../../hooks/log');
 
 const joiCreateRequest = require('../../schemas/requests/story/create');
 const joiPatchRequest = require('../../schemas/requests/story/patch');
 const joiUpdateRequest = require('../../schemas/requests/story/update');
+
 const joiOptions = { convert: true, abortEarly: false };
 
 // Before -
 // ------------------------------------------------------
-const beforeStory = async context => {
+const beforeStory = async context => context;
 
-  return context;
-}
+const beforeFindStory = async context => context;
 
-const beforeFindStory = async context => {
-  const {
-    app,
-    params
-  } = context;
+const beforeGetStory = async context => context;
 
-  //const userFound = await app.services.users.get(params.payload.userId);
-  // app.channel('story').leave(connection => {
-  //   logger.info(connection);
-  //   return connection.user._id === userFound._id
-  // });
+const beforeCreateStory = async (context) => {
+  const { app, params } = context;
 
-  return context;
-}
-
-const beforeGetStory = async context => {
-  const {
-    app,
-    params
-  } = context;
-
-  //const userFound = await app.services.users.get(params.payload.userId);
-  // app.channel('stories').leave(connection => {
-  //   logger.info(connection);
-  //   return connection.user._id === userFound._id
-  // });
-
-  return context;
-}
-
-const beforeCreateStory = async context => {
-  const {
-    app,
-    params
-  } = context;
-
-  const userFound = await app.services.users.get(params.payload.userId);
+  await app.services.users.get(params.payload.userId);
   // app.channel('stories').leave(connection => {
   //   logger.info(connection);
   //   return connection.user._id === userFound._id
@@ -67,237 +30,116 @@ const beforeCreateStory = async context => {
   return context;
 };
 
-const beforeUpdateStory = async context => {
-  const {
-    app,
-    params
-  } = context;
+const beforeUpdateStory = async (context) => {
+  const { app, params } = context;
 
-  const userFound = await app.services.users.get(params.payload.userId);
+  await app.services.users.get(params.payload.userId);
   // app.channel('stories').leave(connection => {
   //   logger.info(connection);
   //   return connection.user._id === userFound._id
   // });
 
   return context;
-}
+};
 
-const beforePatchStory = async context => {
-  const {
-    app,
-    params
-  } = context;
+const beforePatchStory = async (context) => {
+  const { app, params } = context;
 
-  const userFound = await app.services.users.get(params.payload.userId);
+  await app.services.users.get(params.payload.userId);
   // app.channel('stories').leave(connection => {
   //   logger.info(connection);
   //   return connection.user._id === userFound._id
   // });
 
   return context;
-}
+};
 
-const beforeRemoveStory = async context => {
-  const {
-    app,
-    params,
-    id
-  } = context;
+const beforeRemoveStory = async (context) => {
+  const { app, params, id } = context;
 
   const userFound = await app.services.users.get(params.payload.userId);
-  // app.channel('stories').leave(connection => {
-  //   logger.info(connection);
-  //   return connection.user._id === userFound._id
-  // });
-
   const storyFound = await app.services.story.get(id);
 
-  console.log("KEKEK");
-  console.log(storyFound.author);
-  console.log(userFound._id);
-
-
-  // throw new Error("wip");
-
   if (!storyFound.author.equals(userFound._id)) {
-    throw new Error("not authorized");
+    throw new Error('not authorized');
     // throw errors.NotAcceptable('no author in story');
   }
 
+  // console.log("YELP");
+  // console.log(storyFound);
+
+  // throw new Error('wip');
+
+  // remove blocks associated
+  await app.service('block').Model.deleteMany({ _id: { $in: storyFound.blocks } });
+
   return context;
-}
+};
 
 // After -
 // ------------------------------------------------------
 
-const afterStory = async context => {
+const afterStory = async context => context;
 
-  return context;
-}
+const afterFindStory = async context => context;
 
-const afterFindStory = async context => {
-  const {
-    app,
-    params,
-    result
-  } = context;
+const afterGetStory = async context => context;
 
-  // const userFound = await app.services.users.get(params.payload.userId);
-  // const channel = app.channel(`stories`)
-  // channel.join(userFound)
-  // channel.send({
-  //   action: 'find',
-  //   on: '*',
-  //   by: params.payload.userId,
-  //   result
-  // });
-  return context;
-}
+const afterCreateStory = async context => context;
 
-const afterGetStory = async context => {
+const afterUpdateStory = async context => context;
 
-  const {
-    data,
-    result,
-    app,
-    params
-  } = context;
-
-  // const channel = app.channel(`story`)
-  // const authorFound = await app.services.users.get(result.author);
-  // channel.join(authorFound);
-  // channel.send({
-  //   action: 'create',
-  //   on: result._id,
-  //   by: params.payload.userId,
-  //   result
-  // });
-  return context;
-}
-
-const afterCreateStory = async context => {
-  const {
-    data,
-    result,
-    app,
-    params
-  } = context;
-
-  // const channel = app.channel(`story`)
-  // const authorFound = await app.services.users.get(result.author);
-  // channel.join(authorFound);
-  // channel.send({
-  //   action: 'create',
-  //   on: result._id,
-  //   by: params.payload.userId,
-  //   result
-  // });
-  return context;
-};
-
-const afterUpdateStory = async context => {
-  const {
-    result,
-    app,
-    params
-  } = context;
-
-  // const channel = app.channel(`story`)
-  // const userFound = await app.services.users.get(params.payload.userId);
-  // channel.join(userFound)
-  // channel.send({
-  //   action: 'update',
-  //   on: result._id,
-  //   by: params.payload.userId,
-  //   result
-  // });
-
-  return context;
-}
-
-const afterPatchStory = async context => {
-
-  // const channel = app.channel(`story`)
-  // const userFound = await app.services.users.get(params.payload.userId);
-  // channel.join(userFound)
-  // channel.send({
-  //   action: 'patch',
-  //   on: result._id,
-  //   by: params.payload.userId,
-  //   result
-  // });
-
-  return context;
-}
-
-const afterRemoveStory = async context => {
-  const {
-    data,
-    result,
-    app,
-  } = context;
-
-  // const channel = app.channel(`story`)
-  // const userFound = await app.services.users.get(params.payload.userId);
-
-  // channel.join(userFound)
-  // channel.send({
-  //   action: 'remove',
-  //   on: result._id,
-  //   by: params.payload.userId,
-  //   result
-  // });
-
-  // app.channel('story').leave(connection => {
-  //   return connection.user._id === userFound._id
-  // });
-
-  return context;
-}
+const afterPatchStory = async context => context;
+const afterRemoveStory = async context => context;
 
 // Hooks -
 // ------------------------------------------------------
 
+const postResolvers = {
+  joins: {
+    blocks: {
+      resolver: (/* $select, $limit, $sort */) => async (story, context) => {
+        const blockPopulate = await context.app
+          .service('block')
+          .Model.find({ _id: { $in: story.blocks } });
+        story.blocks = blockPopulate;
+        return story.blocks;
+      },
+    },
+    author: {
+      resolver: (/* $select, $limit, $sort */) => async (story, context) => {
+        const authorPopulate = await context.app
+          .service('users')
+          .find({ query: { _id: story.author } });
+        if (authorPopulate && authorPopulate.data.length === 1) {
+          delete authorPopulate.data[0].password;
+          story.author = authorPopulate.data[0];
+        }
+        return story.author;
+      },
+    },
+  },
+};
+
 module.exports = {
   before: {
-    all: [
-      beforeStory
-    ],
-    find: [
-      beforeFindStory
-    ],
-    get: [
-      beforeGetStory
-    ],
-    create: [
-      validate.form(joiCreateRequest, joiOptions),
-      authenticate('jwt'),
-      beforeCreateStory
-    ],
-    update: [
-      validate.form(joiUpdateRequest, joiOptions),
-      authenticate('jwt'),
-      beforeUpdateStory
-    ],
-    patch: [
-      validate.form(joiPatchRequest, joiOptions),
-      authenticate('jwt'),
-      beforePatchStory
-    ],
-    remove: [
-      authenticate('jwt'),
-      beforeRemoveStory
-    ]
+    all: [skipRemainingHooks(isProvider('server')), beforeStory],
+    find: [beforeFindStory],
+    get: [beforeGetStory],
+    create: [validate.form(joiCreateRequest, joiOptions), authenticate('jwt'), beforeCreateStory],
+    update: [validate.form(joiUpdateRequest, joiOptions), authenticate('jwt'), beforeUpdateStory],
+    patch: [validate.form(joiPatchRequest, joiOptions), authenticate('jwt'), beforePatchStory],
+    remove: [authenticate('jwt'), beforeRemoveStory],
   },
 
   after: {
     all: [afterStory],
-    find: [afterFindStory],
+    find: [afterFindStory, fastJoin(postResolvers)],
     get: [afterGetStory],
     create: [afterCreateStory],
     update: [afterUpdateStory],
     patch: [afterPatchStory],
-    remove: [afterRemoveStory]
+    remove: [afterRemoveStory],
   },
 
   error: {
@@ -307,6 +149,6 @@ module.exports = {
     create: [],
     update: [],
     patch: [],
-    remove: []
-  }
+    remove: [],
+  },
 };

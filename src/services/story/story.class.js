@@ -7,11 +7,9 @@ class Service {
     this.models = options.Models || {};
   }
 
-  async find (params) {
+  async find(params) {
     logger.info('Get by params of story');
-    const {
-      query
-    } = params;
+    const { query } = params;
 
     const storyFound = await this.models.stories.find(query);
     if (!storyFound) {
@@ -20,7 +18,7 @@ class Service {
     return storyFound;
   }
 
-  async get (id) {
+  async get(id) {
     logger.info(`Get by ${id} of story`);
 
     const storyFound = await this.models.stories.findById(id);
@@ -30,14 +28,11 @@ class Service {
     return storyFound;
   }
 
-  async create (data) {
+  async create(data) {
     logger.info('create a new Story');
 
     const {
-      author,
-      title,
-      synopsis,
-      nombreOfBlockDefault
+      author, title, synopsis, nombreOfBlockDefault,
     } = data;
 
     const authorFound = await this.models.users.findById(author);
@@ -45,8 +40,9 @@ class Service {
       throw errors.NotFound('author no found');
     }
 
-    logger.info('authorFound ' + ': '.red + authorFound.username +
-      '\n -'.blue + ` id : ${authorFound._id}`);
+    logger.info(
+      `authorFound ${': '.red}${authorFound.username}${'\n -'.blue} id : ${authorFound._id}`,
+    );
 
     const newStory = new this.models.stories({
       author: authorFound._id,
@@ -54,19 +50,17 @@ class Service {
       synopsis,
       nombreOfBlockDefault,
       nombreOfBlock: 0,
-      blocks: []
+      blocks: [],
     });
 
     if (!newStory) {
       throw errors.NotImplemented('the created story is failed');
     }
 
-    const saveStory = await newStory.save()
-      .then(data => data)
-      .catch((err) => {
-        console.log(err);
-        return undefined;
-      });
+    const saveStory = await newStory
+      .save()
+      .then(newData => newData)
+      .catch(() => undefined);
 
     if (!saveStory) {
       throw errors.NotImplemented('the created story is failed');
@@ -74,11 +68,12 @@ class Service {
 
     return {
       id: saveStory._id,
-      title: saveStory.title
+      title: saveStory.title,
     };
   }
 
-  async update (id, data, params) { /* tout modifier */
+  async update(id, data, params) {
+    /* tout modifier */
     logger.info('Update story : ');
 
     const storyFound = await this.models.stories.findById(id);
@@ -87,29 +82,27 @@ class Service {
     }
 
     if (storyFound.author !== params.user._id) {
-      console.log('passe')
       throw errors.NotAuthenticated('is no auth to update the story');
     }
     return data;
   }
 
-  async patch (id, data, params) { /*  */
+  async patch(id, data) {
+    /*  */
     try {
       logger.info('Patch story : ');
       return data;
-    }
-    catch (err) {
+    } catch (err) {
       logger.error(err);
       throw err;
     }
   }
 
-  async remove (id, params) {
+  async remove(id) {
     try {
       logger.info('Remove story : ');
       return { id };
-    }
-    catch (err) {
+    } catch (err) {
       logger.error(err);
       throw err;
     }

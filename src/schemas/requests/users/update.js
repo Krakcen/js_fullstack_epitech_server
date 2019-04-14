@@ -1,5 +1,3 @@
 const Joi = require('joi');
 
-module.exports = Joi.object({
-
-}).required();
+module.exports = Joi.object({}).required();

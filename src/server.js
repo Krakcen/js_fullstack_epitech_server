@@ -3,13 +3,12 @@ const favicon = require('serve-favicon');
 const compress = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');
-const logger = require('./logger');
 
 const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
 const express = require('@feathersjs/express');
 const socketio = require('@feathersjs/socketio');
-
+const logger = require('./logger');
 
 const middleware = require('./middleware');
 const services = require('./services');
@@ -46,7 +45,7 @@ app.configure(authentication);
 app.configure(services);
 // Set up event channels (see channels.js)
 app.configure(channels);
-// Set up docs. 
+// Set up docs.
 app.configure(swagger);
 
 // Configure a middleware for 404s and the error handler
